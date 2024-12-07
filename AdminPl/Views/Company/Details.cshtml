@@ -1,0 +1,60 @@
+﻿@model CompanyDetailsVM
+@{
+    ViewData["Title"] = "Company Details";
+}
+
+<div class="container mt-4">
+    <!-- Company Details -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>@Model.Name</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Status:</strong> 
+                @if (Model.IsActive)
+                {
+                        <span class="badge bg-success">Active</span>
+                }
+                else
+                {
+                        <span class="badge bg-danger">Inactive</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    <!-- List of Travels -->
+    <div class="mt-4">
+        <h4>List of Travels</h4>
+        @if (Model.Travels != null && Model.Travels.Any())
+        {
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var travel in Model.Travels.Select((item, index) => new { item, index }))
+                    {
+                                <tr>
+                                    <td>@(travel.index + 1)</td>
+                                    <td>@travel.item.Title</td>
+                                    <td>@travel.item.Description</td>
+                                    <td>@travel.item.Price.ToString("C")</td>
+                                    <td>@travel.item.CreatedAt.ToString("yyyy-MM-dd")</td>
+                                </tr>
+                    }
+                    </tbody>
+                </table>
+        }
+        else
+        {
+                <p class="text-muted">No travels found for this company.</p>
+        }
+    </div>
+</div>
